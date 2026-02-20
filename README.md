@@ -105,3 +105,21 @@ TRANSACTION_FEE_PERCENTAGE=0.5
 ### Start the Application
 # Development mode with hot reload
 npm run start:dev
+
+### Test the API
+# Open another terminal and test the endpoints:
+# Register a user
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"customer@example.com","password":"password123","firstName":"John","lastName":"Doe"}'
+
+# Login
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"customer@example.com","password":"password123"}'
+
+# Create an account (use the token from login)
+curl -X POST http://localhost:3000/api/accounts \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{"accountType":"savings","currency":"USD","initialDeposit":1000}'
