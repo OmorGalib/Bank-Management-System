@@ -1,0 +1,676 @@
+{
+  "info": {
+    "name": "Bank Management System API",
+    "description": "Complete API collection for testing all banking features",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"customer@example.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phoneNumber\": \"+1234567890\",\n    \"address\": \"123 Main St, City\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"staff@bank.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Smith\",\n    \"role\": \"staff\",\n    \"phoneNumber\": \"+1234567891\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@bank.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Admin\",\n    \"lastName\": \"User\",\n    \"role\": \"admin\",\n    \"phoneNumber\": \"+1234567892\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"customer@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('customerToken', jsonData.access_token);",
+                  "pm.collectionVariables.set('customerId', jsonData.user.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"staff@bank.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('staffToken', jsonData.access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@bank.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('adminToken', jsonData.access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account Management",
+      "item": [
+        {
+          "name": "Create Savings Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"accountType\": \"savings\",\n    \"currency\": \"USD\",\n    \"initialDeposit\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('savingsAccountId', jsonData.id);",
+                  "pm.collectionVariables.set('savingsAccountNumber', jsonData.accountNumber);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Checking Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"accountType\": \"checking\",\n    \"currency\": \"USD\",\n    \"initialDeposit\": 500\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('checkingAccountId', jsonData.id);",
+                  "pm.collectionVariables.set('checkingAccountNumber', jsonData.accountNumber);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Accounts (Customer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts"]
+            }
+          }
+        },
+        {
+          "name": "Get All Accounts (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts"]
+            }
+          }
+        },
+        {
+          "name": "Get Account Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/{{savingsAccountId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "{{savingsAccountId}}"]
+            }
+          }
+        },
+        {
+          "name": "Check Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/{{savingsAccountId}}/balance",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "{{savingsAccountId}}", "balance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Deposit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"accountId\": \"{{savingsAccountId}}\",\n    \"amount\": 500,\n    \"description\": \"Cash deposit\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/deposit",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "deposit"]
+            }
+          }
+        },
+        {
+          "name": "Withdraw",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"accountId\": \"{{savingsAccountId}}\",\n    \"amount\": 200,\n    \"description\": \"ATM withdrawal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/withdraw",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "withdraw"]
+            }
+          }
+        },
+        {
+          "name": "Transfer to Another Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"sourceAccountId\": \"{{savingsAccountId}}\",\n    \"destinationAccountNumber\": \"{{checkingAccountNumber}}\",\n    \"amount\": 300,\n    \"description\": \"Transfer to checking\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/transfer",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "transfer"]
+            }
+          }
+        },
+        {
+          "name": "Get Account Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transactions/account/{{savingsAccountId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "account", "{{savingsAccountId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get All Transactions (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transactions",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Loans",
+      "item": [
+        {
+          "name": "Apply for Personal Loan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"loanType\": \"personal\",\n    \"amount\": 10000,\n    \"interestRate\": 8.5,\n    \"termMonths\": 24,\n    \"purpose\": \"Home renovation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/loans/apply",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans", "apply"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('loanId', jsonData.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "View All Loans (Customer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loans",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans"]
+            }
+          }
+        },
+        {
+          "name": "View All Loans (Staff/Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loans",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans"]
+            }
+          }
+        },
+        {
+          "name": "View Loan Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/loans/{{loanId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans", "{{loanId}}"]
+            }
+          }
+        },
+        {
+          "name": "Approve Loan (Staff/Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"disbursementAccountId\": \"{{savingsAccountId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/loans/{{loanId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans", "{{loanId}}", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Loan (Staff/Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reason\": \"Insufficient credit score\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/loans/{{loanId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["loans", "{{loanId}}", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Generate Account Statement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/account-statement?accountId={{savingsAccountId}}&startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "account-statement"],
+              "query": [
+                {
+                  "key": "accountId",
+                  "value": "{{savingsAccountId}}"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Portfolio Summary (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/portfolio-summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "portfolio-summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Interest",
+      "item": [
+        {
+          "name": "Trigger Monthly Interest (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/interest/calculate-monthly",
+              "host": ["{{baseUrl}}"],
+              "path": ["interest", "calculate-monthly"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ]
+}
